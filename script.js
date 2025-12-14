@@ -114,8 +114,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     recipient: recipientId,
                     amount: amount,
                     type: 'TRANSFER',
-                    description: `${senderId} pagó a ${recipientId}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    description: `${senderId} pagó a ${recipientId}`
+                    // **TIMESTAMP ELIMINADO**
                 });
             });
             console.log("Transacción completada con éxito.");
@@ -159,8 +159,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     recipient: playerId,
                     amount: amount,
                     type: 'LOAN_REQUEST',
-                    description: `Préstamo: $${amount}. Deuda adquirida: $${debtAmount.toFixed(2)} (10% interés)`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    description: `Préstamo: $${amount}. Deuda adquirida: $${debtAmount.toFixed(2)} (10% interés)`
+                    // **TIMESTAMP ELIMINADO**
                 });
             });
             alert(`¡Préstamo de $${amount.toLocaleString('es-ES')} aprobado! Tu nueva deuda es de $${(amount * (1 + LOAN_INTEREST_RATE)).toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}.`);
@@ -208,8 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     recipient: 'bank',
                     amount: actualPaymentApplied,
                     type: 'DEBT_PAYMENT',
-                    description: `Pago de deuda por $${actualPaymentApplied.toFixed(2)}. Deuda restante: $${newDebt.toFixed(2)}`,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                    description: `Pago de deuda por $${actualPaymentApplied.toFixed(2)}. Deuda restante: $${newDebt.toFixed(2)}`
+                    // **TIMESTAMP ELIMINADO**
                 });
             });
             alert(`Pago de deuda por $${paymentAmount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} completado.`);
@@ -291,7 +291,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Escucha en tiempo real el historial de transacciones (TRANSACCIONES GLOBALES)
-        // Se utiliza la lógica de numeración descendente sin depender del timestamp
+        // Se utiliza la lógica de numeración descendente sin dependencia de campos de ordenamiento.
         db.collection("transactions").onSnapshot((snapshot) => {
             const list = document.getElementById('transactions-list');
             list.innerHTML = ''; 
@@ -353,8 +353,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     item.classList.add('highlight-transaction');
                 }
                 
-                // **¡MODIFICADO FINAL! Reemplazamos 'Operación N:' por 'N.'**
-
+                // Formato simple: N. [Descripción]
                 item.innerHTML = `
                     <div><b>${operationNumber}.</b> ${description}</div>
                     <div class="amount ${amountClass}">${amountText}</div>
